@@ -1,0 +1,16 @@
+package me.elpomoika.MovieHub.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@AllArgsConstructor
+public class MovieDTO {
+    private String name;
+    private String title;
+    private String imageUrl;
+    private double rating;
+    private double votes;
+}

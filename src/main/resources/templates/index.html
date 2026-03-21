@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .main { max-width: 800px; margin: 0 auto; }
+        form { margin-bottom: 40px; }
+        input, button { padding: 8px; margin-top: 5px; display: block; }
+        .movies { display: flex; flex-wrap: wrap; gap: 20px; }
+        .movie-card { border: 1px solid #ccc; padding: 10px; width: 180px; text-align: center; }
+        .movie-card img { max-width: 100%; height: auto; display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <main class="main">
+        <h2>Upload Movie</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="file">Image:</label>
+            <input type="file" id="file" name="file" accept="image/*" required>
+
+            <button type="submit">Upload Movie</button>
+        </form>
+
+        <h2>All Movies</h2>
+        <div class="movies" id="moviesContainer">
+            <!-- Movie cards будут вставляться сюда -->
+        </div>
+    </main>
+<script>
+    const form = document.getElementById('uploadForm');
+    const moviesContainer = document.getElementById('moviesContainer');
+
+    // функция для отображения фильмов
+    function renderMovies(movies) {
+        moviesContainer.innerHTML = '';
+        movies.forEach(movie => {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `
+                <img src="${movie.imageUrl}" alt="${movie.title}">
+                <h3>${movie.title}</h3>
+                <p>Rating: ${movie.rating}</p>
+                <p>Votes: ${movie.votes}</p>
+            `;
+            moviesContainer.appendChild(card);
+        });
+    }
+
+    // загрузка всех фильмов с бэка
+    async function loadMovies() {
+        try {
+            const res = await fetch('/api/movie/movies');
+            const data = await res.json();
+            renderMovies(data);
+        } catch (err) {
+            console.error('Failed to load movies', err);
+        }
+    }
+
+    // отправка формы
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        try {
+            await fetch('/api/movie/upload', {
+                method: 'POST',
+                body: formData
+            });
+            form.reset();
+            loadMovies(); // обновляем список после загрузки
+        } catch (err) {
+            console.error('Upload failed', err);
+        }
+    });
+
+    // загрузка фильмов при старте страницы
+    loadMovies();
+</script>
+</body>
+</html>
