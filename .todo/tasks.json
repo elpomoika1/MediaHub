@@ -1,0 +1,134 @@
+[
+  {
+    "id": "TASK_1",
+    "priority": "MEDIUM",
+    "tags": [],
+    "title": "Сделать глобальный поиск медиа",
+    "description": "Глобальный поиск медиа типо search по всем",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 14,
+        "minute": 21,
+        "second": 11,
+        "nano": 859940520
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_7",
+    "priority": "LOW",
+    "tags": [],
+    "title": "нельзя оценку больше 10 или меньше 1",
+    "description": "",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 14,
+        "minute": 56,
+        "second": 5,
+        "nano": 225566772
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_10",
+    "priority": "LOW",
+    "tags": [],
+    "title": "добавить userId в Rating",
+    "description": "",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 14,
+        "minute": 59,
+        "second": 39,
+        "nano": 317924986
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_14",
+    "priority": "LOW",
+    "tags": [],
+    "title": "@OneToMany, @ManyToOne",
+    "description": "",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 15,
+        "minute": 1,
+        "second": 44,
+        "nano": 447196940
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_19",
+    "priority": "LOW",
+    "tags": [],
+    "title": "saveMovie нужно ли задавать 0.0",
+    "description": "",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 15,
+        "minute": 8,
+        "second": 33,
+        "nano": 848957638
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_25",
+    "priority": "LOW",
+    "tags": [],
+    "title": "поменять в toDto votes",
+    "description": "",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 15,
+        "minute": 11,
+        "second": 27,
+        "nano": 865812149
+      }
+    },
+    "isImported": false
+  }
+]

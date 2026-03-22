@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class MovieDTO {
+public class MediaPreviewDTO {
     private String name;
     private String title;
     private String imageUrl;

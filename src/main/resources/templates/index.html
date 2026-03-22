@@ -9,9 +9,9 @@
         .main { max-width: 800px; margin: 0 auto; }
         form { margin-bottom: 40px; }
         input, button { padding: 8px; margin-top: 5px; display: block; }
-        .movies { display: flex; flex-wrap: wrap; gap: 20px; }
-        .movie-card { border: 1px solid #ccc; padding: 10px; width: 180px; text-align: center; }
-        .movie-card img { max-width: 100%; height: auto; display: block; margin-bottom: 10px; }
+        .media { display: flex; flex-wrap: wrap; gap: 20px; }
+        .media-card { border: 1px solid #ccc; padding: 10px; width: 180px; text-align: center; }
+        .media-card img { max-width: 100%; height: auto; display: block; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -28,23 +28,23 @@
         </form>
 
         <h2>All Movies</h2>
-        <div class="movies" id="moviesContainer">
+        <div class="media" id="moviesContainer">
         </div>
     </main>
 <script>
     const form = document.getElementById('uploadForm');
     const moviesContainer = document.getElementById('moviesContainer');
 
-    function renderMovies(movies) {
+    function renderMovies(media) {
         moviesContainer.innerHTML = '';
-        movies.forEach(movie => {
+        media.forEach(media => {
             const card = document.createElement('div');
-            card.className = 'movie-card';
+            card.className = 'media-card';
             card.innerHTML = `
-                <img src="${movie.imageUrl}" alt="${movie.title}">
-                <h3>${movie.title}</h3>
-                <p>Rating: ${movie.rating}</p>
-                <p>Votes: ${movie.votes}</p>
+                <img src="${media.imageUrl}" alt="${media.title}">
+                <h3>${media.title}</h3>
+                <p>Rating: ${media.rating}</p>
+                <p>Votes: ${media.votes}</p>
             `;
             moviesContainer.appendChild(card);
         });
@@ -52,11 +52,11 @@
 
     async function loadMovies() {
         try {
-            const res = await fetch('/api/movie/movies');
+            const res = await fetch('/api/medias');
             const data = await res.json();
             renderMovies(data);
         } catch (err) {
-            console.error('Failed to load movies', err);
+            console.error('Failed to load media', err);
         }
     }
 
@@ -64,7 +64,7 @@
         e.preventDefault();
         const formData = new FormData(form);
         try {
-            await fetch('/api/movie/upload', {
+            await fetch('/api/upload', {
                 method: 'POST',
                 body: formData
             });
