@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import me.elpomoika.MovieHub.dto.MovieDTO;
 import me.elpomoika.MovieHub.mapper.MovieMapper;
 import me.elpomoika.MovieHub.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,12 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/movie")
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class MovieController {
-    @Autowired
-    private MovieService movieService;
-    @Autowired
-    private MovieMapper movieMapper;
+    private final MovieService movieService;
+    private final MovieMapper movieMapper;
 
     @PostMapping("/upload")
     public ResponseEntity<String> upload(
@@ -41,6 +39,13 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getMovies().stream()
                 .map(movieMapper::toDto)
                 .collect(Collectors.toList())
+        );
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<MovieDTO> getRandomMovie() {
+        return ResponseEntity.ok(
+                movieMapper.toDto(movieService.getRandomMovie())
         );
     }
 }
