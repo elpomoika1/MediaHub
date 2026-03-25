@@ -17,9 +17,31 @@
 <body>
     <main class="main">
         <h2>Upload Movie</h2>
+
         <form id="uploadForm" enctype="multipart/form-data">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
+
+            <label for="type">Type:</label>
+            <select id="type" name="type" required>
+                <option value="MOVIE">Movie</option>
+                <option value="SERIES">Series</option>
+                <option value="ANIME">Anime</option>
+                <option value="CARTOON">Cartoon</option>
+                <option value="TV_SHOW">TV Show</option>
+            </select>
+
+            <label for="genre">Genres:</label>
+            <select id="genre" name="genre" multiple required>
+                <option value="ACTION">Action</option>
+                <option value="DRAMA">Drama</option>
+                <option value="COMEDY">Comedy</option>
+                <option value="HORROR">Horror</option>
+                <option value="SCI_FI">Sci-Fi</option>
+                <option value="ROMANCE">Romance</option>
+                <option value="THRILLER">Thriller</option>
+                <option value="FANTASY">Fantasy</option>
+            </select>
 
             <label for="file">Image:</label>
             <input type="file" id="file" name="file" accept="image/*" required>
@@ -52,7 +74,7 @@
 
     async function loadMovies() {
         try {
-            const res = await fetch('/api/medias');
+            const res = await fetch('/api/media/list');
             const data = await res.json();
             renderMovies(data);
         } catch (err) {
@@ -62,12 +84,34 @@
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(form);
+
+        const formData = new FormData();
+
+        const file = document.getElementById('file').files[0];
+        const title = document.getElementById('title').value;
+        const type = document.getElementById('type').value;
+
+        const genreSelect = document.getElementById('genre');
+        const genres = Array.from(genreSelect.selectedOptions).map(o => o.value);
+
+        const data = {
+            title: title,
+            type: type,
+            genres: genres
+        };
+
+        formData.append('file', file);
+        formData.append('data', new Blob(
+            [JSON.stringify(data)],
+            { type: 'application/json' }
+        ));
+
         try {
-            await fetch('/api/upload', {
+            await fetch('/api/media/upload', {
                 method: 'POST',
                 body: formData
             });
+
             form.reset();
             loadMovies();
         } catch (err) {

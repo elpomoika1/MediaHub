@@ -1,4 +1,4 @@
-package me.elpomoika.MovieHub.dto;
+package me.elpomoika.MovieHub.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,13 +1,12 @@
 package me.elpomoika.MovieHub.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.elpomoika.MovieHub.dto.MediaPreviewDTO;
-import me.elpomoika.MovieHub.dto.Genre;
-import me.elpomoika.MovieHub.dto.MediaType;
+import me.elpomoika.MovieHub.domain.dto.MediaPreviewDTO;
+import me.elpomoika.MovieHub.domain.dto.MediaRequest;
+import me.elpomoika.MovieHub.domain.enums.MediaType;
 import me.elpomoika.MovieHub.mapper.MediaMapper;
 import me.elpomoika.MovieHub.service.MediaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,31 +15,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
-@Validated
+@RequestMapping("/api/media")
 @RequiredArgsConstructor
 public class MediaController {
     private final MediaService mediaService;
     private final MediaMapper mediaMapper;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> upload(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("title") String title,
-            @RequestParam("genre") List<Genre> genres,
-            @RequestParam("type") MediaType mediaType) throws IOException {
-        mediaService.saveMovie(file, title, mediaType, genres);
+    public ResponseEntity<?> upload(
+            @RequestPart("file") MultipartFile file,
+            @RequestPart("data") MediaRequest request) throws IOException {
+        mediaService.saveMovie(file, request);
         return ResponseEntity.ok("Uploaded");
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<MediaPreviewDTO> getMedia(@PathVariable String slug) {
+    public ResponseEntity<MediaPreviewDTO> getMedia(@PathVariable String name) {
         return ResponseEntity.ok(
-                mediaMapper.toDto(mediaService.getMediaBySlug(slug))
+                mediaMapper.toDto(mediaService.getMediaBySlug(name))
         );
     }
 
-    @GetMapping("/medias")
+    @GetMapping("/list")
     public ResponseEntity<List<MediaPreviewDTO>> getMedias() {
         return ResponseEntity.ok(mediaService.getMedias().stream()
                 .map(mediaMapper::toDto)
@@ -48,10 +44,9 @@ public class MediaController {
         );
     }
 
-    @GetMapping("/medias/{type}")
+    @GetMapping("/list/{type}")
     public ResponseEntity<List<MediaPreviewDTO>> getMedias(@PathVariable MediaType type) {
-        return ResponseEntity.ok(mediaService.getMedias().stream()
-                .filter(m -> m.getType() == type)
+        return ResponseEntity.ok(mediaService.getMediasByType(type).stream()
                 .map(mediaMapper::toDto)
                 .collect(Collectors.toList())
         );
@@ -64,9 +59,9 @@ public class MediaController {
         );
     }
 
-    @PostMapping("/rate")
-    public ResponseEntity<String> rateMedia(@RequestParam String name,
-                                            @RequestParam double rating) {
+    @PostMapping("/{name}/rate")
+    public ResponseEntity<?> rateMedia(@PathVariable String name,
+                                       @RequestParam Double rating) {
         mediaService.rateMedia(name, rating);
         return ResponseEntity.ok("rated");
     }

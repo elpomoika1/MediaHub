@@ -1,9 +1,9 @@
-package me.elpomoika.MovieHub.entity;
+package me.elpomoika.MovieHub.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import me.elpomoika.MovieHub.dto.Genre;
-import me.elpomoika.MovieHub.dto.MediaType;
+import me.elpomoika.MovieHub.domain.enums.Genre;
+import me.elpomoika.MovieHub.domain.enums.MediaType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,5 +37,6 @@ public class Media {
     @OneToMany(mappedBy = "media", cascade = CascadeType.ALL)
     private final List<Rating> rating = new ArrayList<>();
 
-    private List<Rating> votes;
+    @OneToMany(mappedBy = "media", cascade = CascadeType.ALL)
+    private final List<Votes> votes = new ArrayList<>();
 }

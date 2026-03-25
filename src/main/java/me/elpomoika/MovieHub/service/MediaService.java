@@ -1,10 +1,10 @@
 package me.elpomoika.MovieHub.service;
 
 import lombok.RequiredArgsConstructor;
-import me.elpomoika.MovieHub.dto.Genre;
-import me.elpomoika.MovieHub.entity.Media;
-import me.elpomoika.MovieHub.dto.MediaType;
-import me.elpomoika.MovieHub.entity.Rating;
+import me.elpomoika.MovieHub.domain.dto.MediaRequest;
+import me.elpomoika.MovieHub.domain.entity.Media;
+import me.elpomoika.MovieHub.domain.entity.Rating;
+import me.elpomoika.MovieHub.domain.enums.MediaType;
 import me.elpomoika.MovieHub.repository.MediaRepository;
 import me.elpomoika.MovieHub.util.SlugGenerator;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,12 @@ public class MediaService {
     private final MediaRepository mediaRepository;
     private final S3FileStorageService s3StorageService;
 
-    public void saveMovie(MultipartFile file, String title, MediaType mediaType, List<Genre> genres) throws IOException {
+    public void saveMovie(MultipartFile file, MediaRequest request) throws IOException {
+        String title = request.getTitle();
         Media media = Media.builder()
                 .title(title)
-                .type(mediaType)
-                .genres(genres)
+                .type(request.getType())
+                .genres(request.getGenres())
                 .build();
 
         media = mediaRepository.save(media);
@@ -50,7 +51,6 @@ public class MediaService {
                 .build();
 
         media.getRating().add(rating);
-
         mediaRepository.save(media);
     }
 
@@ -67,5 +67,11 @@ public class MediaService {
 
     public List<Media> getMedias() {
         return mediaRepository.findAll();
+    }
+
+    public List<Media> getMediasByType(MediaType mediaType) {
+        return getMedias().stream()
+                .filter(m -> m.getType() == mediaType)
+                .toList();
     }
 }
