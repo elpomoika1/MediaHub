@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +59,14 @@ public class MediaController {
         return ResponseEntity.ok(
                 mediaMapper.toDto(mediaService.getRandomMovie())
         );
+    }
+
+    @GetMapping("/search/{title}")
+    public ResponseEntity<List<MediaPreviewDTO>> searchResults(@PathVariable String title) {
+        String decodedTitle = URLDecoder.decode(title, StandardCharsets.UTF_8);
+        return ResponseEntity.ok(mediaService.searchMedia(decodedTitle).stream()
+                .map(mediaMapper::toDto)
+                .collect(Collectors.toList()));
     }
 
     @PostMapping("/{name}/rate")

@@ -61,6 +61,10 @@ public class MediaService {
         return media.get(random.nextInt(media.size()));
     }
 
+    public List<Media> searchMedia(String title) {
+        return mediaRepository.searchMedia(title);
+    }
+
     public Media getMediaBySlug(String slug) {
         return mediaRepository.findByName(slug);
     }
