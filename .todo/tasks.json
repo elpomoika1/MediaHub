@@ -1,27 +1,5 @@
 [
   {
-    "id": "TASK_1",
-    "priority": "MEDIUM",
-    "tags": [],
-    "title": "Сделать глобальный поиск медиа",
-    "description": "Глобальный поиск медиа типо search по всем",
-    "status": "TODO",
-    "date": {
-      "date": {
-        "year": 2026,
-        "month": 3,
-        "day": 22
-      },
-      "time": {
-        "hour": 14,
-        "minute": 21,
-        "second": 11,
-        "nano": 859940520
-      }
-    },
-    "isImported": false
-  },
-  {
     "id": "TASK_10",
     "priority": "LOW",
     "tags": [],
