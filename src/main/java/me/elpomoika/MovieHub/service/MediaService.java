@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.elpomoika.MovieHub.domain.dto.MediaRequest;
 import me.elpomoika.MovieHub.domain.entity.Media;
 import me.elpomoika.MovieHub.domain.entity.Rating;
+import me.elpomoika.MovieHub.domain.enums.Genre;
 import me.elpomoika.MovieHub.domain.enums.MediaType;
 import me.elpomoika.MovieHub.repository.MediaRepository;
 import me.elpomoika.MovieHub.util.SlugGenerator;
@@ -30,7 +31,7 @@ public class MediaService {
 
         media = mediaRepository.save(media);
 
-        final String slug = SlugGenerator.generateSlug(title) + "-" + media.getId();
+        final String slug = SlugGenerator.generateSlug(title, media.getId());
         final String imageUrl = s3StorageService.uploadFile(file, slug);
 
         media.setName(slug);
@@ -74,8 +75,10 @@ public class MediaService {
     }
 
     public List<Media> getMediasByType(MediaType mediaType) {
-        return getMedias().stream()
-                .filter(m -> m.getType() == mediaType)
-                .toList();
+        return mediaRepository.findByType(mediaType);
+    }
+
+    public List<Media> getMediasByGenres(List<Genre> genres) {
+        return mediaRepository.findByGenresIn(genres);
     }
 }
