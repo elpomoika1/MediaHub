@@ -4,6 +4,7 @@ import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import me.elpomoika.MovieHub.domain.dto.MediaPreviewDTO;
 import me.elpomoika.MovieHub.domain.dto.MediaRequest;
+import me.elpomoika.MovieHub.domain.entity.Media;
 import me.elpomoika.MovieHub.domain.enums.Genre;
 import me.elpomoika.MovieHub.domain.enums.MediaType;
 import me.elpomoika.MovieHub.mapper.MediaMapper;
@@ -44,24 +45,26 @@ public class MediaController {
     public ResponseEntity<List<MediaPreviewDTO>> getMedias() {
         return ResponseEntity.ok(mediaService.getMedias().stream()
                 .map(mediaMapper::toDto)
-                .collect(Collectors.toList())
+                .toList()
         );
     }
 
     @GetMapping("/list/{type}")
-    public ResponseEntity<List<MediaPreviewDTO>> getMediasByType(@PathVariable MediaType type) {
-        return ResponseEntity.ok(mediaService.getMediasByType(type).stream()
-                .map(mediaMapper::toDto)
-                .collect(Collectors.toList())
-        );
-    }
+    public ResponseEntity<List<MediaPreviewDTO>> getMediasByType(
+            @PathVariable MediaType type,
+            @RequestParam(required = false) List<Genre> genres) {
+        List<Media> medias;
 
-    @GetMapping("/list/{type}")
-    public ResponseEntity<List<MediaPreviewDTO>> getMediasByGenre(@PathVariable List<Genre> genres) {
-        return ResponseEntity.ok(mediaService.getMediasByGenres(genres).stream()
-                .map(mediaMapper::toDto)
-                .collect(Collectors.toList())
-        );
+        if (genres == null || genres.isEmpty()) {
+            medias = mediaService.getMediasByType(type);
+        } else {
+            medias = mediaService.getMediasByTypeAndGenres(type, genres);
+        }
+
+        return ResponseEntity.ok(
+                medias.stream()
+                        .map(mediaMapper::toDto)
+                        .toList());
     }
 
     @GetMapping("/random")

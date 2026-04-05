@@ -74,11 +74,11 @@ public class MediaService {
         return mediaRepository.findAll();
     }
 
-    public List<Media> getMediasByType(MediaType mediaType) {
-        return mediaRepository.findByType(mediaType);
+    public List<Media> getMediasByTypeAndGenres(MediaType mediaType, List<Genre> genres) {
+        return mediaRepository.findDistinctByTypeAndGenresIn(mediaType, genres);
     }
 
-    public List<Media> getMediasByGenres(List<Genre> genres) {
-        return mediaRepository.findByGenresIn(genres);
+    public List<Media> getMediasByType(MediaType mediaType) {
+        return mediaRepository.findByType(mediaType);
     }
 }
