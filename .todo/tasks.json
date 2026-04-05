@@ -1,0 +1,94 @@
+[
+  {
+    "id": "TASK_10",
+    "priority": "LOW",
+    "tags": [],
+    "title": "добавить userId в Rating",
+    "description": "",
+    "status": "TODO",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 14,
+        "minute": 59,
+        "second": 39,
+        "nano": 317924986
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_14",
+    "priority": "LOW",
+    "tags": [],
+    "title": "@OneToMany, @ManyToOne",
+    "description": "",
+    "status": "DONE",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 15,
+        "minute": 1,
+        "second": 44,
+        "nano": 447196940
+      }
+    },
+    "finishDate": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 28
+      },
+      "time": {
+        "hour": 11,
+        "minute": 55,
+        "second": 32,
+        "nano": 184309852
+      }
+    },
+    "isImported": false
+  },
+  {
+    "id": "TASK_25",
+    "priority": "LOW",
+    "tags": [],
+    "title": "поменять в toDto votes",
+    "description": "",
+    "status": "DONE",
+    "date": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 22
+      },
+      "time": {
+        "hour": 15,
+        "minute": 11,
+        "second": 27,
+        "nano": 865812149
+      }
+    },
+    "finishDate": {
+      "date": {
+        "year": 2026,
+        "month": 3,
+        "day": 28
+      },
+      "time": {
+        "hour": 11,
+        "minute": 54,
+        "second": 50,
+        "nano": 949302283
+      }
+    },
+    "isImported": false
+  }
+]

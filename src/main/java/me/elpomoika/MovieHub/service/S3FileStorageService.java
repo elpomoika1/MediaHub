@@ -1,7 +1,6 @@
 package me.elpomoika.MovieHub.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -17,11 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 @Service
+@RequiredArgsConstructor
 public class S3FileStorageService {
-    @Autowired
-    private S3Client client;
-    @Autowired
-    private S3Presigner presigner;
+    private final S3Client client;
+    private final S3Presigner presigner;
 
     private static final String BUCKET_NAME = "movies";
 
@@ -37,12 +35,12 @@ public class S3FileStorageService {
                 RequestBody.fromInputStream(file.getInputStream(), file.getSize())
         );
 
-        return generatePresignedUrl(BUCKET_NAME, key + "/" + filename);
+        return generatePresignedUrl(key + "/" + filename);
     }
 
-    private String generatePresignedUrl(String bucket, String key) {
+    private String generatePresignedUrl(String key) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                .bucket(bucket)
+                .bucket(BUCKET_NAME)
                 .key(key)
                 .build();
 
