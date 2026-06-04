@@ -8,6 +8,7 @@ class MediaHubApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

@@ -1,8 +1,9 @@
-package me.elpomoika.MovieHub.repository;
+package me.elpomoika.MovieHub.repository.impl;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import me.elpomoika.MovieHub.domain.entity.Media;
+import me.elpomoika.MovieHub.repository.MediaRepositorySearch;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;

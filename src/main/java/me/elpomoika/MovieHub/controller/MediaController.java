@@ -1,6 +1,5 @@
 package me.elpomoika.MovieHub.controller;
 
-import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import me.elpomoika.MovieHub.domain.dto.MediaPreviewDTO;
 import me.elpomoika.MovieHub.domain.dto.MediaRequest;
