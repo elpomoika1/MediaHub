@@ -1,9 +1,8 @@
 package me.elpomoika.MovieHub.controller;
 
-import lombok.Generated;
 import lombok.RequiredArgsConstructor;
-import me.elpomoika.MovieHub.domain.dto.MediaPreviewDTO;
-import me.elpomoika.MovieHub.domain.dto.MediaRequest;
+import me.elpomoika.MovieHub.dto.media.MediaPreviewDto;
+import me.elpomoika.MovieHub.dto.media.MediaRequestDto;
 import me.elpomoika.MovieHub.domain.entity.Media;
 import me.elpomoika.MovieHub.domain.enums.Genre;
 import me.elpomoika.MovieHub.domain.enums.MediaType;
@@ -29,20 +28,20 @@ public class MediaController {
     @PostMapping("/upload")
     public ResponseEntity<?> upload(
             @RequestPart("file") MultipartFile file,
-            @RequestPart("data") MediaRequest request) throws IOException {
+            @RequestPart("data") MediaRequestDto request) throws IOException {
         mediaService.saveMovie(file, request);
         return ResponseEntity.ok("Uploaded");
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<MediaPreviewDTO> getMedia(@PathVariable String name) {
+    public ResponseEntity<MediaPreviewDto> getMedia(@PathVariable String name) {
         return ResponseEntity.ok(
                 mediaMapper.toDto(mediaService.getMediaBySlug(name))
         );
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<MediaPreviewDTO>> getMedias() {
+    public ResponseEntity<List<MediaPreviewDto>> getMedias() {
         return ResponseEntity.ok(mediaService.getMedias().stream()
                 .map(mediaMapper::toDto)
                 .toList()
@@ -50,7 +49,7 @@ public class MediaController {
     }
 
     @GetMapping("/list/{type}")
-    public ResponseEntity<List<MediaPreviewDTO>> getMediasByType(
+    public ResponseEntity<List<MediaPreviewDto>> getMediasByType(
             @PathVariable MediaType type,
             @RequestParam(required = false) List<Genre> genres) {
         List<Media> medias;
@@ -68,15 +67,16 @@ public class MediaController {
     }
 
     @GetMapping("/random")
-    public ResponseEntity<MediaPreviewDTO> getRandomMedia() {
+    public ResponseEntity<MediaPreviewDto> getRandomMedia() {
         return ResponseEntity.ok(
                 mediaMapper.toDto(mediaService.getRandomMovie())
         );
     }
 
     @GetMapping("/search/{title}")
-    public ResponseEntity<List<MediaPreviewDTO>> searchResults(@PathVariable String title) {
+    public ResponseEntity<List<MediaPreviewDto>> searchResults(@PathVariable String title) {
         String decodedTitle = URLDecoder.decode(title, StandardCharsets.UTF_8);
+
         return ResponseEntity.ok(mediaService.searchMedia(decodedTitle).stream()
                 .map(mediaMapper::toDto)
                 .collect(Collectors.toList()));

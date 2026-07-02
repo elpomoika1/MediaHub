@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface MediaRepository extends JpaRepository<Media, Long>, MediaRepositorySearch {
     Media findByName(String name);
-    List<Media> findByGenresIn(List<Genre> genres);
     List<Media> findByType(MediaType mediaType);
     List<Media> findDistinctByTypeAndGenresIn(MediaType type, List<Genre> genres);
 }

@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 
     @GetMapping
-    public String getIndex() {
-        return "index";
+    public String getIndexPage() {
+        return "home";
+    }
+
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "login";
     }
 }

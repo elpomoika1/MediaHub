@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@NoArgsConstructor
 @SuperBuilder
-@AllArgsConstructor
 public class Votes extends BaseValue {
 
 }
