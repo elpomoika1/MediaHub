@@ -1,4 +1,4 @@
-package me.elpomoika.MovieHub.configuration;
+package me.elpomoika.MovieHub.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,18 +19,16 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
-        // @formatter:off
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/home").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
-        // @formatter:on
 
         return http.build();
     }

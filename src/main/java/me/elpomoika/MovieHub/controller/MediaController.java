@@ -76,6 +76,7 @@ public class MediaController {
     @GetMapping("/search/{title}")
     public ResponseEntity<List<MediaPreviewDTO>> searchResults(@PathVariable String title) {
         String decodedTitle = URLDecoder.decode(title, StandardCharsets.UTF_8);
+
         return ResponseEntity.ok(mediaService.searchMedia(decodedTitle).stream()
                 .map(mediaMapper::toDto)
                 .collect(Collectors.toList()));

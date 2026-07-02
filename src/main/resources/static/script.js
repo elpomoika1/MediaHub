@@ -1,65 +1,113 @@
 const form = document.getElementById('uploadForm');
 const moviesContainer = document.getElementById('moviesContainer');
 
-function renderMovies(media) {
-    moviesContainer.innerHTML = '';
-    media.forEach(media => {
-        const card = document.createElement('div');
-        card.className = 'media-card';
-        card.innerHTML = `
-            <img src="${media.imageUrl}" alt="${media.title}">
-            <h3>${media.title}</h3>
-            <p>Rating: ${media.rating}</p>
-            <p>Votes: ${media.votes}</p>
-        `;
-        moviesContainer.appendChild(card);
-    });
+function createMediaCard(media) {
+    const card = document.createElement('div');
+    card.className = 'media-card';
+
+    const img = document.createElement('img');
+    img.alt = media.title || '';
+
+    // Разрешаем только относительные URL или http/https
+    try {
+        const url = new URL(media.imageUrl, window.location.origin);
+
+        if (
+            url.protocol === 'http:' ||
+            url.protocol === 'https:' ||
+            url.origin === window.location.origin
+        ) {
+            img.src = url.href;
+        } else {
+            img.src = '/images/no-image.png';
+        }
+    } catch {
+        img.src = '/images/no-image.png';
+    }
+
+    const title = document.createElement('h3');
+    title.textContent = media.title;
+
+    const rating = document.createElement('p');
+    rating.textContent = `Rating: ${media.rating}`;
+
+    const votes = document.createElement('p');
+    votes.textContent = `Votes: ${media.votes}`;
+
+    card.appendChild(img);
+    card.appendChild(title);
+    card.appendChild(rating);
+    card.appendChild(votes);
+
+    return card;
+}
+
+function renderMovies(mediaList) {
+    moviesContainer.replaceChildren();
+
+    for (const media of mediaList) {
+        moviesContainer.appendChild(createMediaCard(media));
+    }
 }
 
 async function loadMovies() {
     try {
-        const res = await fetch('/api/media/list');
-        const data = await res.json();
+        const response = await fetch('/api/media/list');
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
         renderMovies(data);
     } catch (err) {
-        console.error('Failed to load media', err);
+        console.error('Failed to load media:', err);
     }
 }
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert('Select a file.');
+        return;
+    }
+
     const formData = new FormData();
 
-    const file = document.getElementById('file').files[0];
-    const title = document.getElementById('title').value;
-    const type = document.getElementById('type').value;
-
-    const genreSelect = document.getElementById('genre');
-    const genres = Array.from(genreSelect.selectedOptions).map(o => o.value);
-
-    const data = {
-        title: title,
-        type: type,
-        genres: genres
-    };
-
     formData.append('file', file);
-    formData.append('data', new Blob(
-        [JSON.stringify(data)],
-        { type: 'application/json' }
-    ));
+    formData.append(
+        'data',
+        new Blob(
+            [JSON.stringify({
+                title: document.getElementById('title').value,
+                type: document.getElementById('type').value,
+                genres: Array.from(
+                    document.getElementById('genre').selectedOptions,
+                    option => option.value
+                )
+            })],
+            { type: 'application/json' }
+        )
+    );
 
     try {
-        await fetch('/api/media/upload', {
+        const response = await fetch('/api/media/upload', {
             method: 'POST',
             body: formData
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
         form.reset();
-        loadMovies();
+        await loadMovies();
     } catch (err) {
-        console.error('Upload failed', err);
+        console.error('Upload failed:', err);
     }
 });
 
