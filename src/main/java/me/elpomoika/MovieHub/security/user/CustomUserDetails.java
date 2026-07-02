@@ -1,8 +1,8 @@
-package me.elpomoika.MovieHub.security;
+package me.elpomoika.MovieHub.security.user;
 
+import me.elpomoika.MovieHub.domain.entity.User;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -21,6 +21,6 @@ public record CustomUserDetails(User user) implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getEmail();
     }
 }

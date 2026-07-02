@@ -1,7 +1,7 @@
 package me.elpomoika.MovieHub.service;
 
 import lombok.RequiredArgsConstructor;
-import me.elpomoika.MovieHub.domain.dto.MediaRequest;
+import me.elpomoika.MovieHub.dto.media.MediaRequestDto;
 import me.elpomoika.MovieHub.domain.entity.Media;
 import me.elpomoika.MovieHub.domain.entity.Rating;
 import me.elpomoika.MovieHub.domain.enums.Genre;
@@ -21,7 +21,7 @@ public class MediaService {
     private final MediaRepository mediaRepository;
     private final S3FileStorageService s3StorageService;
 
-    public void saveMovie(MultipartFile file, MediaRequest request) throws IOException {
+    public void saveMovie(MultipartFile file, MediaRequestDto request) throws IOException {
         String title = request.getTitle();
         Media media = Media.builder()
                 .title(title)

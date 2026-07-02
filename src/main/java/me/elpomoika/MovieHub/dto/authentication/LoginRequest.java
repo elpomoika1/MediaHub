@@ -1,9 +1,9 @@
-package me.elpomoika.MovieHub.domain.dto;
+package me.elpomoika.MovieHub.dto.authentication;
 
 import lombok.Data;
 
 @Data
-public class UserCredentialsDto {
+public class LoginRequest {
     private String email;
     private String password;
 }
